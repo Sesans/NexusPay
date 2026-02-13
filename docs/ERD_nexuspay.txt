@@ -1,0 +1,47 @@
+erDiagram
+    Users{
+        UUID id PK
+        String name
+        String cpf UK
+        String email UK
+        int age
+        String password_hash
+        String transaction_pin_hash
+        Enum status
+    }
+    Emails{
+        Long id PK
+        UUID user_id
+        Enum email_type "Using email_type, the application can send the appropriate template"
+        String additional_data
+        Timestamp created_at
+        Enum status
+    }
+    Accounts{
+        UUID id PK
+        UUID user_id
+        Enum currency_code "ISO 4217"
+        Long balance_cents "Snapshot de saldo"
+        int version "Optimistic Locking"
+        Timestamp created_at
+    }
+    Ledger_Entries{
+        Long id PK
+        UUID account_id FK
+        Long transaction_id FK
+        Long amount "Unsigned"
+        String entry_type "DEBIT/CREDIT"
+        String current_hash "Hash(prev_hash + data)"
+        String previous_hash "Seed hash = account_id"
+        Timestamp created_at
+    }
+    Transactions{
+        Long id PK
+        UUID correlation_id "idempotency"
+        String description
+        Timestamp created_at
+        Enum status
+    }
+
+    Account ||--o{ Ledger_Entry : records
+    Transaction ||--|{ Ledger_Entry : "composed of (min 2)"
