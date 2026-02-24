@@ -7,6 +7,7 @@ import com.nexuspay.ledger.internal.domain.model.LedgerEntry;
 import com.nexuspay.ledger.internal.domain.model.Transaction;
 import com.nexuspay.ledger.domain.valueobject.TransactionType;
 import com.nexuspay.ledger.dto.TransferRequestDTO;
+import com.nexuspay.ledger.internal.domain.model.TransactionCondition;
 import com.nexuspay.ledger.internal.infra.AccountRepository;
 import com.nexuspay.ledger.internal.infra.LedgerEntryRepository;
 import com.nexuspay.ledger.internal.infra.TransactionRepository;
@@ -50,7 +51,7 @@ public class TransactionService {
         source.debit(dto.amount());
         destination.credit(dto.amount());
 
-        Transaction transaction = new Transaction(dto.correlationId(), dto.description(), timestamp);
+        Transaction transaction = new Transaction(dto.correlationId(), dto.description(), timestamp, TransactionCondition.PROCESSED);
         transactionRepository.save(transaction);
 
         createAndSaveEntry(source, transaction.getId(), dto.amount(), TransactionType.DEBIT, timestamp);
