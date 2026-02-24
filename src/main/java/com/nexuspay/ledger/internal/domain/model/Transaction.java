@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Getter
 @Entity
+@Table(name = "transactions")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,14 +24,15 @@ public class Transaction {
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TransactionCondition status;
 
     protected Transaction(){}
 
-    public Transaction(UUID correlationId, String description, LocalDateTime timestamp){
+    public Transaction(UUID correlationId, String description, LocalDateTime timestamp, TransactionCondition status){
         this.correlationId = correlationId;
         this.description = description;
-        this.createdAT = timestamp;
         this.createdAt = timestamp;
+        this.status = status;
     }
 }
