@@ -15,7 +15,7 @@ CREATE TABLE transactions(
     correlation_id UUID NOT NULL UNIQUE,
     description TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) NOT NULL,
+    status VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE ledger_entries(
@@ -28,7 +28,7 @@ CREATE TABLE ledger_entries(
     previous_hash VARCHAR(64) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT fk_ledger_account FOREIGN KEY (account_id) REFERENCES Accounts (id),
+    CONSTRAINT fk_ledger_account FOREIGN KEY (account_id) REFERENCES accounts (id),
     CONSTRAINT fk_ledger_transaction FOREIGN KEY (transaction_id) REFERENCES transactions (id)
 );
 

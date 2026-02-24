@@ -39,7 +39,7 @@ public class LedgerEntry {
     private String previousHash;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAT;
+    private LocalDateTime createdAt;
 
     protected LedgerEntry() {}
 
@@ -49,9 +49,9 @@ public class LedgerEntry {
         this.amount = amount;
         this.entryType = type;
         this.previousHash = previousHash;
-        this.createdAT = timestamp;
+        this.createdAt = timestamp;
 
-        this.currentHash = calculateHash(previousHash, accountId, transactionId, amount, type, createdAT);
+        this.currentHash = calculateHash(previousHash, accountId, transactionId, amount, type, createdAt);
     }
 
     private String calculateHash(String prev, UUID accId, Long txId, Long amt, TransactionType type, LocalDateTime date) {

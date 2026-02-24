@@ -20,7 +20,7 @@ public class Transaction {
     private String description;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAT;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
     private TransactionCondition status;
@@ -31,5 +31,6 @@ public class Transaction {
         this.correlationId = correlationId;
         this.description = description;
         this.createdAT = timestamp;
+        this.createdAt = timestamp;
     }
 }
