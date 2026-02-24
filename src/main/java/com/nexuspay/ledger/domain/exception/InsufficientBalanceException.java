@@ -1,4 +1,4 @@
-package com.nexuspay.ledger.internal.domain.exception;
+package com.nexuspay.ledger.domain.exception;
 
 import java.util.UUID;
 
