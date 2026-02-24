@@ -1,4 +1,4 @@
-package com.nexuspay.ledger.internal.domain.valueobjetct;
+package com.nexuspay.ledger.domain.valueobject;
 
 public enum CurrencyCode {
     USD,
