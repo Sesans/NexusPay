@@ -43,20 +43,21 @@ public class LedgerEntry {
 
     protected LedgerEntry() {}
 
-    public LedgerEntry(UUID accountId, Long transactionId, Long amount, TransactionType type, String previousHash, String currentHash) {
+    public LedgerEntry(UUID accountId, Long transactionId, Long amount, TransactionType type, String previousHash, LocalDateTime timestamp) {
         this.accountId = accountId;
         this.transactionId = transactionId;
         this.amount = amount;
         this.entryType = type;
         this.previousHash = previousHash;
-        this.createdAT = LocalDateTime.now();
+        this.createdAT = timestamp;
 
-        this.currentHash = calculateHash(previousHash, accountId, amount, type, createdAT);
+        this.currentHash = calculateHash(previousHash, accountId, transactionId, amount, type, createdAT);
     }
 
-    private String calculateHash(String prev, UUID accId, Long amt, TransactionType type, LocalDateTime date) {
+    private String calculateHash(String prev, UUID accId, Long txId, Long amt, TransactionType type, LocalDateTime date) {
         try {
-            String input = prev + accId.toString() + amt + type + date.toString();
+            String input = String.format("%s|%s|%d|%d|%s|%s", prev, accId, txId, amt, type, date);
+
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedHash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
             return HexFormat.of().formatHex(encodedHash);
