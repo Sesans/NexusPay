@@ -1,4 +1,4 @@
-package com.nexuspay.ledger.domain.exception;
+package com.nexuspay.ledger.api.exception;
 
 public class InvalidTransactionAmountException extends RuntimeException {
     public InvalidTransactionAmountException(String message) {

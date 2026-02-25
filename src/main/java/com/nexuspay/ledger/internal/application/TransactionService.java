@@ -1,12 +1,12 @@
 package com.nexuspay.ledger.internal.application;
 
-import com.nexuspay.ledger.domain.exception.AccountNotFoundException;
-import com.nexuspay.ledger.domain.exception.DuplicateTransactionException;
+import com.nexuspay.ledger.api.exception.AccountNotFoundException;
+import com.nexuspay.ledger.api.exception.DuplicateTransactionException;
 import com.nexuspay.ledger.internal.domain.model.Account;
 import com.nexuspay.ledger.internal.domain.model.LedgerEntry;
 import com.nexuspay.ledger.internal.domain.model.Transaction;
 import com.nexuspay.ledger.domain.valueobject.TransactionType;
-import com.nexuspay.ledger.dto.TransferRequestDTO;
+import com.nexuspay.ledger.api.dto.TransferRequestDTO;
 import com.nexuspay.ledger.internal.domain.model.TransactionCondition;
 import com.nexuspay.ledger.internal.infra.AccountRepository;
 import com.nexuspay.ledger.internal.infra.LedgerEntryRepository;

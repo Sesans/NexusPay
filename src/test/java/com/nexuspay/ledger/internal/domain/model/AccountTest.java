@@ -1,8 +1,8 @@
 package com.nexuspay.ledger.internal.domain.model;
 
 import com.nexuspay.ledger.domain.valueobject.CurrencyCode;
-import com.nexuspay.ledger.domain.exception.InsufficientBalanceException;
-import com.nexuspay.ledger.domain.exception.InvalidTransactionAmountException;
+import com.nexuspay.ledger.api.exception.InsufficientBalanceException;
+import com.nexuspay.ledger.api.exception.InvalidTransactionAmountException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

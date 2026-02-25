@@ -21,7 +21,7 @@ erDiagram
         UUID id PK
         UUID user_id
         Enum currency_code "ISO 4217"
-        Long balance_cents "Snapshot de saldo"
+        Long balance_cents "Balance snapshot"
         int version "Optimistic Locking"
         Timestamp created_at
     }

@@ -1,4 +1,4 @@
-package com.nexuspay.ledger.dto;
+package com.nexuspay.ledger.api.dto;
 
 import java.time.LocalDateTime;
 import java.util.Map;

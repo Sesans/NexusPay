@@ -1,9 +1,9 @@
 package com.nexuspay.ledger;
 
-import com.nexuspay.ledger.domain.exception.DuplicateTransactionException;
+import com.nexuspay.ledger.api.exception.DuplicateTransactionException;
 import com.nexuspay.ledger.domain.valueobject.CurrencyCode;
 import com.nexuspay.ledger.domain.valueobject.TransactionType;
-import com.nexuspay.ledger.dto.TransferRequestDTO;
+import com.nexuspay.ledger.api.dto.TransferRequestDTO;
 import com.nexuspay.ledger.internal.application.TransactionService;
 import com.nexuspay.ledger.internal.domain.model.Account;
 import com.nexuspay.ledger.internal.domain.model.LedgerEntry;

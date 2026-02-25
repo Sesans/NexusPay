@@ -1,4 +1,4 @@
-package com.nexuspay.ledger.domain.exception;
+package com.nexuspay.ledger.api.exception;
 
 import lombok.Getter;
 

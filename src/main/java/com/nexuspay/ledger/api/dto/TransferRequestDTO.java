@@ -1,4 +1,4 @@
-package com.nexuspay.ledger.dto;
+package com.nexuspay.ledger.api.dto;
 
 import java.util.UUID;
 

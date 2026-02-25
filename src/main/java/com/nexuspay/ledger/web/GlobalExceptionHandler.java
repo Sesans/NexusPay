@@ -1,10 +1,10 @@
 package com.nexuspay.ledger.web;
 
-import com.nexuspay.ledger.domain.exception.AccountNotFoundException;
-import com.nexuspay.ledger.domain.exception.DuplicateTransactionException;
-import com.nexuspay.ledger.domain.exception.InsufficientBalanceException;
-import com.nexuspay.ledger.domain.exception.InvalidTransactionAmountException;
-import com.nexuspay.ledger.dto.ErrorResponse;
+import com.nexuspay.ledger.api.exception.AccountNotFoundException;
+import com.nexuspay.ledger.api.exception.DuplicateTransactionException;
+import com.nexuspay.ledger.api.exception.InsufficientBalanceException;
+import com.nexuspay.ledger.api.exception.InvalidTransactionAmountException;
+import com.nexuspay.ledger.api.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

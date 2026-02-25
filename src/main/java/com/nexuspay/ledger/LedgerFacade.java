@@ -1,6 +1,6 @@
 package com.nexuspay.ledger;
 
-import com.nexuspay.ledger.dto.TransferRequestDTO;
+import com.nexuspay.ledger.api.dto.TransferRequestDTO;
 import com.nexuspay.ledger.internal.application.TransactionService;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
