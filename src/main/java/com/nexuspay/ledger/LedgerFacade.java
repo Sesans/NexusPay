@@ -19,7 +19,6 @@ public class LedgerFacade {
 
     @Retryable(
             retryFor = {OptimisticLockingFailureException.class},
-            maxAttempts = 3,
             backoff = @Backoff(delay = 100)
     )
     public void transfer(TransferRequestDTO dto){
