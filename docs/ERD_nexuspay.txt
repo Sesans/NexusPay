@@ -8,6 +8,7 @@ erDiagram
         String password_hash
         String transaction_pin_hash
         Enum status
+        Timestamp created_at
     }
     Emails{
         Long id PK
