@@ -1,0 +1,13 @@
+package com.nexuspay.ledger.domain.repository;
+
+import com.nexuspay.ledger.domain.model.Transaction;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    boolean existsByCorrelationId(UUID correlationId);
+
+    Optional<Transaction> findByCorrelationId(UUID uuid);
+}

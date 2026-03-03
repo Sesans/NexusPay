@@ -1,12 +1,13 @@
 package com.nexuspay.ledger.internal.application;
 
-import com.nexuspay.ledger.domain.valueobject.CurrencyCode;
-import com.nexuspay.ledger.api.dto.TransferRequestDTO;
-import com.nexuspay.ledger.internal.domain.model.Account;
-import com.nexuspay.ledger.internal.domain.model.LedgerEntry;
-import com.nexuspay.ledger.internal.infra.AccountRepository;
-import com.nexuspay.ledger.internal.infra.LedgerEntryRepository;
-import com.nexuspay.ledger.internal.infra.TransactionRepository;
+import com.nexuspay.ledger.application.TransactionService;
+import com.nexuspay.ledger.domain.model.CurrencyCode;
+import com.nexuspay.ledger.application.dto.TransferRequestDTO;
+import com.nexuspay.ledger.domain.model.Account;
+import com.nexuspay.ledger.domain.model.LedgerEntry;
+import com.nexuspay.ledger.domain.repository.AccountRepository;
+import com.nexuspay.ledger.domain.repository.LedgerEntryRepository;
+import com.nexuspay.ledger.domain.repository.TransactionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

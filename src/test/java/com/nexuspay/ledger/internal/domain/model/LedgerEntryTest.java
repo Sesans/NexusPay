@@ -1,6 +1,7 @@
 package com.nexuspay.ledger.internal.domain.model;
 
-import com.nexuspay.ledger.domain.valueobject.TransactionType;
+import com.nexuspay.ledger.domain.model.LedgerEntry;
+import com.nexuspay.ledger.domain.model.TransactionType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

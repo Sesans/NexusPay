@@ -1,8 +1,8 @@
 package com.nexuspay.ledger.web;
 
 import com.nexuspay.ledger.LedgerFacade;
-import com.nexuspay.ledger.api.dto.TransferRequestDTO;
-import com.nexuspay.ledger.api.dto.TransferResponseDTO;
+import com.nexuspay.ledger.application.dto.TransferRequestDTO;
+import com.nexuspay.ledger.application.dto.TransferResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

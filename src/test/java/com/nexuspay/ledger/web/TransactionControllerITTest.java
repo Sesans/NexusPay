@@ -1,10 +1,10 @@
 package com.nexuspay.ledger.web;
 
-import com.nexuspay.ledger.api.dto.TransferRequestDTO;
-import com.nexuspay.ledger.domain.valueobject.CurrencyCode;
-import com.nexuspay.ledger.internal.domain.model.Account;
-import com.nexuspay.ledger.internal.domain.model.TransactionCondition;
-import com.nexuspay.ledger.internal.infra.AccountRepository;
+import com.nexuspay.ledger.application.dto.TransferRequestDTO;
+import com.nexuspay.ledger.domain.model.CurrencyCode;
+import com.nexuspay.ledger.domain.model.Account;
+import com.nexuspay.ledger.domain.model.TransactionCondition;
+import com.nexuspay.ledger.domain.repository.AccountRepository;
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,0 +1,12 @@
+package com.nexuspay.auth.domain.repository;
+
+import com.nexuspay.auth.domain.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.UUID;
+
+public interface UserRepository extends JpaRepository<User, UUID> {
+    boolean existsByEmail(String email);
+
+    boolean existsByCpf(String cpf);
+}
