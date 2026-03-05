@@ -1,5 +1,7 @@
 package com.nexuspay.auth.application;
 
+import com.nexuspay.auth.application.dto.UserResponseDTO;
+import com.nexuspay.auth.domain.model.UserStatus;
 import com.nexuspay.auth.domain.repository.UserRepository;
 import com.nexuspay.auth.application.dto.UserRequestDTO;
 import com.nexuspay.auth.domain.exception.DuplicateUserException;
@@ -21,7 +23,7 @@ public class AuthService {
     }
 
     @Transactional
-    public void register(UserRequestDTO dto){
+    public UserResponseDTO register(UserRequestDTO dto){
         if(userRepository.existsByCpf(dto.cpf()))
             throw new DuplicateUserException("CPF already registered!");
         if(userRepository.existsByEmail(dto.email()))
@@ -33,5 +35,12 @@ public class AuthService {
 
         User user = new User(dto.name(), dto.cpf(), dto.email(), dto.age(), password, transactionPin, timestamp);
         userRepository.save(user);
+
+        return new UserResponseDTO(
+                dto.name(),
+                dto.email(),
+                UserStatus.PENDING,
+                timestamp
+        );
     }
 }
