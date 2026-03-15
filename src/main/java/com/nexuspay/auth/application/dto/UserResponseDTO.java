@@ -8,6 +8,7 @@ public record UserResponseDTO(
         String name,
         String email,
         UserStatus status,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        String token
 ) {
 }
