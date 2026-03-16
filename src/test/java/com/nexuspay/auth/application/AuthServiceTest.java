@@ -2,10 +2,12 @@ package com.nexuspay.auth.application;
 
 import com.nexuspay.auth.application.dto.UserRequestDTO;
 import com.nexuspay.auth.application.dto.UserResponseDTO;
+import com.nexuspay.auth.application.dto.VerifyOTP;
 import com.nexuspay.auth.domain.exception.DuplicateUserException;
 import com.nexuspay.auth.domain.model.User;
 import com.nexuspay.auth.domain.model.UserStatus;
 import com.nexuspay.auth.domain.repository.UserRepository;
+import com.nexuspay.auth.domain.repository.VerificationCodeRepository;
 import com.nexuspay.auth.infra.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,13 +31,16 @@ class AuthServiceTest {
     UserRepository userRepository;
     @Mock
     TokenService tokenService;
+    @Mock
+    VerificationCodeRepository codeRepository;
+
     @InjectMocks
     AuthService authService;
     UserRequestDTO dto;
 
     @BeforeEach
     void setup(){
-         dto = new UserRequestDTO("Test", "12312312312", "test@gmail.com", 18, "passwordTest", "transactionTest");
+        dto = new UserRequestDTO("Test", "12312312312", "test@gmail.com", 18, "passwordTest", "transactionTest");
     }
 
 
