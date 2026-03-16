@@ -1,0 +1,18 @@
+CREATE TABLE Users (
+    id UUID PRIMARY KEY,
+    name VARCHAR(40) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
+    email VARCHAR(60) NOT NULL,
+    age INT NOT NULL,
+    password VARCHAR(64) NOT NULL,
+    transaction_pin VARCHAR(64) NOT NULL,
+    status VARCHAR(10) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE verification_codes (
+    id BIGSERIAL PRIMARY KEY,
+    code VARCHAR(6) NOT NULL,
+    user_id UUID NOT NULL,
+    expires_at TIMESTAMP WITH TIME ZONE
+);
