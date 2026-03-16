@@ -6,7 +6,11 @@ import com.nexuspay.auth.application.dto.UserResponseDTO;
 import com.nexuspay.auth.application.dto.VerifyOTP;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -25,7 +29,8 @@ public class AuthController {
 
     @PostMapping("/verify")
     @ResponseStatus(HttpStatus.OK)
-    public void verify(@Valid VerifyOTP dto){
-        authService.verify(dto);
+    public void verify(@AuthenticationPrincipal Jwt jwt, @RequestBody @Valid VerifyOTP dto){
+        UUID userId = UUID.fromString(jwt.getSubject());
+        authService.verify(userId, dto);
     }
 }
