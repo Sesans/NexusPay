@@ -1,13 +1,14 @@
 package com.nexuspay.auth.application;
 
 import com.nexuspay.auth.application.dto.UserRegisteredEvent;
+import com.nexuspay.auth.application.dto.UserRequestDTO;
 import com.nexuspay.auth.application.dto.UserResponseDTO;
 import com.nexuspay.auth.application.dto.VerifyOTP;
+import com.nexuspay.auth.domain.exception.DuplicateUserException;
+import com.nexuspay.auth.domain.exception.ExpiredCodeException;
+import com.nexuspay.auth.domain.model.User;
 import com.nexuspay.auth.domain.model.VerificationCode;
 import com.nexuspay.auth.domain.repository.UserRepository;
-import com.nexuspay.auth.application.dto.UserRequestDTO;
-import com.nexuspay.auth.domain.exception.DuplicateUserException;
-import com.nexuspay.auth.domain.model.User;
 import com.nexuspay.auth.domain.repository.VerificationCodeRepository;
 import com.nexuspay.auth.infra.security.TokenService;
 import jakarta.transaction.Transactional;
@@ -73,11 +74,18 @@ public class AuthService {
     }
 
     @Transactional
-    public void verify(VerifyOTP dto) {
-        VerificationCode code = verificationRepository.findByUserId(UUID.randomUUID()).orElseThrow();
-        code.validate(dto.otp());
-        User user = verificationRepository.findUserByUserId(code.getUserId()).orElseThrow();
+    public void verify(UUID userId, VerifyOTP dto) {
+        User user = userRepository.findById(userId).orElseThrow();
+        VerificationCode code = verificationRepository.findByUserId(userId).orElseThrow();
+
+        try{
+            code.validate(dto.otp());
+        }catch (ExpiredCodeException ex){
+            verificationRepository.delete(code);
+        }
         user.setVerified();
+
+        verificationRepository.delete(code);
     }
 
 }
