@@ -24,13 +24,14 @@ public class TokenService implements TokenValidator {
     private String secret;
 
     public String generateToken(User user){
-        try{
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        List<String> roles = List.of("ROLE_" + user.getStatus().toString());
 
+        try{
             return JWT.create()
                     .withIssuer("nexuspay")
                     .withSubject(user.getId().toString())
-                    .withClaim("status", user.getStatus().toString())
+                    .withClaim("roles", roles)
                     .withClaim("email", user.getEmail())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
@@ -69,9 +70,9 @@ public class TokenService implements TokenValidator {
     public Collection<? extends GrantedAuthority> getAuthorities(String token) {
         try {
             DecodedJWT decoded = validateAndDecodeToken(token);
-            String status = decoded.getClaim("status").asString();
+            String roles = decoded.getClaim("roles").asString();
             // Transform the status (VERIFIED, PENDING) in a spring role
-            return List.of(new SimpleGrantedAuthority("ROLE_" + status));
+            return List.of(new SimpleGrantedAuthority("ROLE_" + roles));
         } catch (Exception e) {
             return List.of();
         }
