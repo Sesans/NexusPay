@@ -91,6 +91,15 @@ erDiagram
 | Rest Assured | DSL fluida para testes automatizados de APIs REST com foco em BDD |
 | Docker | Containerização para padronização de ambientes de desenvolvimento e infraestrutura |
 
+## API endpoints
+
+| Endpoint                | Method | Description                              |
+|:------------------------| :--- |:-----------------------------------------|
+| /api/v1/auth/register   | POST | Registrar novo usuário                   |
+| /api/v1/auth/verify     | POST | Realizar verificação de email do usuário |
+| /api/v1/ledger/transfer | POST | Realizar uma transferência               |
+| /api/v1/account         | POST | Criar uma nova conta de carteira digital |
+
 ## Como executar
 
 Certifique-se de ter o Docker, Docker compose e Java 21 instalados.
