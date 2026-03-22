@@ -42,17 +42,20 @@ public class Account {
     }
 
     public void credit(Long amount) {
-        if(amount == null || amount <=0)
-            throw new InvalidTransactionAmountException("The amount must be a positive number!");
+        validAmount(amount);
         this.balanceCents += amount;
     }
 
-    public void debit(long amount) {
-        if (amount <= 0)
-            throw new InvalidTransactionAmountException("The amount must be a positive number!");
+    public void debit(Long amount) {
+        validAmount(amount);
         if (amount > this.balanceCents)
-            throw new InsufficientBalanceException(this.id, amount, this.balanceCents);
+            throw new InsufficientBalanceException(this.id, amount);
 
         this.balanceCents -= amount;
+    }
+
+    private void validAmount(Long amount){
+        if(amount == null || amount <=0)
+            throw new InvalidTransactionAmountException("The amount must be a positive number!");
     }
 }

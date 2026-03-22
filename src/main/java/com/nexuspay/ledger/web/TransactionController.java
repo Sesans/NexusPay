@@ -5,6 +5,7 @@ import com.nexuspay.ledger.application.dto.TransferRequestDTO;
 import com.nexuspay.ledger.application.dto.TransferResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ public class TransactionController {
 
     @PostMapping("/transfer")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('VERIFIED')")
     public TransferResponseDTO transfer(@RequestBody @Valid TransferRequestDTO dto){
         return ledgerFacade.transfer(dto);
     }

@@ -2,7 +2,6 @@ package com.nexuspay.auth.application;
 
 import com.nexuspay.auth.application.dto.UserRequestDTO;
 import com.nexuspay.auth.application.dto.UserResponseDTO;
-import com.nexuspay.auth.application.dto.VerifyOTP;
 import com.nexuspay.auth.domain.exception.DuplicateUserException;
 import com.nexuspay.auth.domain.model.User;
 import com.nexuspay.auth.domain.model.UserStatus;
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,6 +33,8 @@ class AuthServiceTest {
     TokenService tokenService;
     @Mock
     VerificationCodeRepository codeRepository;
+    @Mock
+    ApplicationEventPublisher publisher;
 
     @InjectMocks
     AuthService authService;

@@ -3,6 +3,7 @@ package com.nexuspay.auth.infra;
 import com.nexuspay.auth.application.dto.UserRegisteredEvent;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +11,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+@Profile("!test")
 @Component
 public class EmailListener {
     private final JavaMailSender mailSender;
