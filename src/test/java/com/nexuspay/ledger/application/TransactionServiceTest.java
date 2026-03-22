@@ -1,6 +1,5 @@
-package com.nexuspay.ledger.internal.application;
+package com.nexuspay.ledger.application;
 
-import com.nexuspay.ledger.application.TransactionService;
 import com.nexuspay.ledger.domain.model.CurrencyCode;
 import com.nexuspay.ledger.application.dto.TransferRequestDTO;
 import com.nexuspay.ledger.domain.model.Account;

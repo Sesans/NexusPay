@@ -1,14 +1,12 @@
-package com.nexuspay.ledger.internal.domain.model;
+package com.nexuspay.ledger.domain.model;
 
-import com.nexuspay.ledger.domain.model.LedgerEntry;
-import com.nexuspay.ledger.domain.model.TransactionType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class LedgerEntryTest {
     LedgerEntry ledgerEntry;
