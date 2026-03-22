@@ -1,4 +1,5 @@
 erDiagram
+    direction LR
     Users{
         UUID id PK
         String name
@@ -9,14 +10,6 @@ erDiagram
         String transaction_pin_hash
         Enum status
         Timestamp created_at
-    }
-    Emails{
-        Long id PK
-        UUID user_id
-        Enum email_type "Using email_type, the application can send the appropriate template"
-        String additional_data
-        Timestamp created_at
-        Enum status
     }
     Accounts{
         UUID id PK
@@ -44,5 +37,6 @@ erDiagram
         Enum status
     }
 
-    Account ||--o{ Ledger_Entry : records
-    Transaction ||--|{ Ledger_Entry : "composed of (min 2)"
+    Users ||--o{ Accounts : own
+    Accounts ||--o{ Ledger_Entries : record   
+    Transactions ||--|{ Ledger_Entries : "composed of (min 2)"
