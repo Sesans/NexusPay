@@ -1,6 +1,8 @@
 package com.nexuspay.auth.web;
 
 import com.nexuspay.auth.application.AuthService;
+import com.nexuspay.auth.application.LoginUseCase;
+import com.nexuspay.auth.application.dto.UserLoginDTO;
 import com.nexuspay.auth.application.dto.UserRequestDTO;
 import com.nexuspay.auth.application.dto.UserResponseDTO;
 import com.nexuspay.auth.application.dto.VerifyOTP;
@@ -15,9 +17,10 @@ import java.util.UUID;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
     private final AuthService authService;
-
-    public AuthController(AuthService authService) {
+    private final LoginUseCase loginUseCase;
+    public AuthController(AuthService authService, LoginUseCase loginUseCase) {
         this.authService = authService;
+        this.loginUseCase = loginUseCase;
     }
 
     @PostMapping("/register")
@@ -30,5 +33,11 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     public void verify(@AuthenticationPrincipal UUID userId, @RequestBody @Valid VerifyOTP dto){
         authService.verify(userId, dto);
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponseDTO login(@RequestBody @Valid UserLoginDTO dto){
+        return loginUseCase.execute(dto);
     }
 }
