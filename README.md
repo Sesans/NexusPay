@@ -1,34 +1,35 @@
 # NexusPay - Core Banking Engine
 
-O NexusPay é uma plataforma backend para serviços financeiros construída com foco em integridade transactional, segurança multicamadas e escalabilidade modular.
+NexusPay is a backend platform for financial services built with a focus on transactional integrity, multi-layered security, and modular scalability.
 
-O Objetivo deste projeto é demonstrar uma implementação de um sistema crítico onde a precisão de dados, integridade e segurança são os pilares fundamentais.
+The goal of this project is to demonstrate the implementation of a mission-critical system where data accuracy, integrity, and security are the cornerstones.
 
 
-## Arquitetura/Design e Desenvolvimento
+## Architecture/Design and Development
 
-Essa aplicação utiliza uma abordagem de monólito modular (Spring Modulith). Cada domínio de negócio é isolado, preparando o sistema para uma futura transição para microsserviços sem a complexidade prematura de uma rede distribuída e complexa. No nível de módulos foi utilizada a arquitetura hexagonal para isolar a lógica de negócios, facilitar manutenção/escalamento e testes. Utilizando DDD para criar entidades ricas focando na lógica de negócios e TDD como fluxo de desenvolvimento com a abordagem red-green-refactor, garantindo ampla cobertura de testes, classes desacopladas e funcionais. 
-##### Mais definições de modelagem do desenvolvimento da aplicação podem ser visto em no diretório [documentos](./docs/), neste constam definições de requisitos, modelagem C4, diagrama de Entidade-Relacionamento e Architectural Decision Records (ADR).
+This application uses a modular monolith approach (Spring Monolith). Each business domain is isolated, preparing the system for a future transition to microservices without the premature complexity of a distributed and complex network. At the module level, the Clean Architecture was used to isolate business logic and facilitate maintenance, scaling, and testing. DDD was used to create rich entities focused on business logic, and TDD was employed as the development workflow using the red-green-refactor approach, ensuring comprehensive test coverage, decoupled classes, and functional design. 
+##### Further application development modeling definitions can be found in the [documents](./docs) directory, which contains requirement definitions, C4 modeling, Entity-Relationship diagrams, and Architectural Decision Records (ADR).
 
-#### Módulos Principais:
-- Ledger: Coração financeiro. Implementa um livro-razão imutável para garantir que nenhum dado, ou centavo, seja perdido, criado ou movido indevidamente.
-- Auth: Gera a identidade dos usuários, autenticação via JWT e verificação de conta via OTP.
-- Shared: Componentes transversais reutilizáveis.
+#### Main Modules:
+- Ledger: The financial backbone. Implements an immutable ledger to ensure that no data—or a single cent—is lost, created, or moved improperly.
+- Auth: Manages user identities, authentication via JWT, and account verification via OTP.
+- Shared: Reusable cross-functional components.
 
 ####
 
-## Decisões de arquitetura
+## Architectural decisions
 
-Um padrão rígido foi seguido nas decisões de arquitetura, sendo analisados, documentados e implementados visando garantir que toda a aplicação fosse segura, precisa, íntegra além de facilitar a manutenção e escalabilidade futura, como:
-- Autenticação Stateless: Implementações de Spring Security 6 com JWT, eliminando a necessidade de sessões e permitindo escalabilidade horizontal.
-- Hashing de Senhas: Uso de BCrypt para proteção de credenciais, garantindo resistência a ataques de força bruta.
-- Cryptographic Chaining: Entradas possuem campos hash anterior e hash atual (baseado nas informações do usuário, da transação e do hash anterior). Essa abordagem cria uma corrente que pode ser retrocedida, deixando claro alterações indevidas.
-- Fluxo de Onboarding seguro: Usuários nascem com o status PENDING e só ganham acesso a operações financeiras após a validação de um OTP de 6 dígitos via canal seguro.
-- Transaction PIN: Camada extra de autorização para movimentações de saldo.
-- Conciliação de Dados: Para garantir a integridade do saldo, um job assíncrono feito com Spring Batch utiliza o resultado da soma entre o somatório de entradas e o de saída para verificar a exatidão do snapshot de saldo presente na entidade de contas.
-- Double-Entry Bookkeeping: A aplicação não apenas altera o saldo, e sim gera duas entradas, uma de crédito e outra de débito. Esse padrão garante auditoria contábil e que toda transação tenha soma igual a zero, isso significa que nenhum valor é criado ou desaparece do nada.
-- Controle de concorrência e resiliência: Afim de evitar problemas de Race Conditions e DeadLocks, utilizei a estratégia de Optimistic Locking. Um campo @Version é registrado na tabela Accounts, esse campo é checado para assegurar que uma transação ainda não foi processada, ou todo o processo sofrerá rollback. Para transações que usariam o mesmo recurso sendo processadas concomitantemente, utilizei o Spring Retry para lidar com requisições que falharam por conta de locking + uma estratégia de Exponential Backoff e Jitter.
-- Observabilidade e SRE: Com o intuito de manter a aplicação sempre monitorada, utilizei o Actuator para gerar logs e métricas, Prometheus para capturar e persistir esses dados, grafana para gerar relatórios e dashboards úteis e com o micrometer tracing cada requisição pode ser visualizada, acompanhada e mensurada.
+A strict standard was followed in architectural decisions, which were analyzed, documented, and implemented to ensure that the entire application was secure, accurate, and reliable, while also facilitating future maintenance and scalability, such as:
+- Stateless Authentication: Implementation of Spring Security 6 with JWT, eliminating the need for sessions and enabling horizontal scalability.
+- Password Hash: Use of BCrypt to protect credentials, ensuring resistance to brute-force attacks.
+- Cryptographic Chaining: Entries include fields for the previous hash and the current hash (based on user information, transaction details, and the previous hash). This approach creates a chain that can be traced backward, making any unauthorized changes evident.
+- Secure Onboarding Flow: Users start with PENDING status and only gain access to financial transactions after validating a 6-digit OTP via a secure channel.
+- Transaction PIN: An extra layer of authorization for balance transactions.
+- Data Reconciliation: To ensure balance integrity, an asynchronous job using Spring Batch calculates the difference between the sum of incoming and outgoing transactions to verify the accuracy of the balance snapshot in the accounts entity.
+- Double-Entry Bookkeeping: The application does not simply change the balance; instead, it generates two entries, one credit and one debit. This standard ensures accounting auditability and that every transaction has a net total of zero, meaning that no value is created or disappears out of thin air.
+- Concurrency control and resilience: To avoid race conditions and deadlocks, I used the optimistic locking strategy. A @Version field is stored in the Accounts table; this field is checked to ensure that a transaction has not yet been processed, or the entire process will be rolled back. For transactions accessing the same resource that are processed concurrently, I used Spring Retry to handle requests that failed due to locking, along with an Exponential Backoff and Jitter strategy.
+- Observability and SRE: To ensure the application is constantly monitored, I used Actuator to generate logs and metrics, Prometheus to capture and persist this data, Grafana to generate useful reports and dashboards, and with Micrometer tracing, each request can be visualized, tracked, and measured.
+
 
 ```mermaid
 erDiagram
@@ -77,38 +78,39 @@ erDiagram
 
 ## Tech Stack
 
-| Tecnologia | Finalidade |
-| :--- | :--- |
-| Spring Boot | Framework base para produtividade e robustez |
-| Spring Security | Orquestração de autenticação e autorização |
-| Spring Modulith | Garantia de isolamento lógico entre módulos e suporte à arquitetura modular |
-| Spring Retry | Implementação de resiliência e tolerância a falhas em operações transitórias |
-| PostgreSQL | Banco de dados relacional para consistência ACID |
-| Hibernate/JPA | Abstração de persistência e mapeamento objeto-relacional (ORM) |
-| FlyWay | Gerenciamento e versionamento automatizado de migrações do banco de dados |
-| JWT | Tokens compactos e seguros para validação de identidade em arquiteturas stateless |
-| TestContainers | Testes de integração fiéis à produção utilizando containers Docker efêmeros |
-| Rest Assured | DSL fluida para testes automatizados de APIs REST com foco em BDD |
-| Docker | Containerização para padronização de ambientes de desenvolvimento e infraestrutura |
+| Technology      | Purpose                                                                        |
+|:----------------|:-------------------------------------------------------------------------------|
+| Spring Boot     | Core framework for productivity and robustness                                 |
+| Spring Security | Authentication and authorization orchestration                                 |
+| Spring Modulith | Ensures logical isolation between modules and supports modular architecture    |
+| Spring Retry    | Implements resilience and fault tolerance in transient operations              |
+| PostgreSQL      | Relational database for ACID consistency                                       |
+| Hibernate/JPA   | Persistence abstraction and object-relational mapping (ORM)                    |
+| FlyWay          | Automated management and versioning of database migrations                     |
+| JWT             | Compact and secure tokens for identity validation in stateless architectures   |
+| TestContainers  | Production-faithful integration testing using ephemeral Docker containers      |
+| Rest Assured    | Fluid DSL for automated testing of REST APIs with a focus on BDD               |
+| Docker          | Containerization for standardizing development environments and infrastructure |
+
 
 ## API endpoints
 
-| Endpoint                | Method | Description                              |
-|:------------------------| :--- |:-----------------------------------------|
-| /api/v1/auth/register   | POST | Registrar novo usuário                   |
-| /api/v1/auth/verify     | POST | Realizar verificação de email do usuário |
-| /api/v1/ledger/transfer | POST | Realizar uma transferência               |
-| /api/v1/account         | POST | Criar uma nova conta de carteira digital |
+| Endpoint                | Method | Description            |
+|:------------------------|:-------|:-----------------------|
+| /api/v1/auth/register   | POST   | Register a new user    |
+| /api/v1/auth/verify     | POST   | Verify the user e-mail |
+| /api/v1/ledger/transfer | POST   | Do a transaction       |
+| /api/v1/account         | POST   | Create a new account   |
 
-## Como executar
+## How to run
 
-Certifique-se de ter o Docker, Docker compose e Java 21 instalados.
+Make sure you have Docker, Docker Compose, and Java 21 installed.
 
-#### Clone o repositório
+#### Clone the repository
     git clone https://github.com/Sesans/nexuspay.git
 
-#### Faça o build da aplicação
+#### Build the application
     docker compose build
 
-#### Suba a aplicação
+#### Run the application
     docker compose up -d
