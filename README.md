@@ -7,7 +7,7 @@ The goal of this project is to demonstrate the implementation of a mission-criti
 
 ## Architecture/Design and Development
 
-This application uses a modular monolith approach (Spring Monolith). Each business domain is isolated, preparing the system for a future transition to microservices without the premature complexity of a distributed and complex network. At the module level, the Clean Architecture was used to isolate business logic and facilitate maintenance, scaling, and testing. DDD was used to create rich entities focused on business logic, and TDD was employed as the development workflow using the red-green-refactor approach, ensuring comprehensive test coverage, decoupled classes, and functional design. 
+This application uses a modular monolith approach (Spring Modulith). Each business domain is isolated, preparing the system for a future transition to microservices without the premature complexity of a distributed and complex network. At the module level, the Clean Architecture was used to isolate business logic and facilitate maintenance, scaling, and testing. DDD was used to create rich entities focused on business logic, and TDD was employed as the development workflow using the red-green-refactor approach, ensuring comprehensive test coverage, decoupled classes, and functional design. 
 ##### Further application development modeling definitions can be found in the [documents](./docs) directory, which contains requirement definitions, C4 modeling, Entity-Relationship diagrams, and Architectural Decision Records (ADR).
 
 #### Main Modules:
