@@ -1,33 +1,30 @@
 C4Container
     title System Container Diagram - NexusPay Ledger Core
-        Person(customer, Customer, "User of NexusPay")
 
-        System_Ext(email_system, "E-Mail System", "Extern service E-mail validation via OTP")
-        System_Ext(spa, "Single-Page App", "JavaScript/Angular", "Web interface for onboarding and transactions")
+        Person(customer, "Customer", "User interacting via frontend")
 
-        System_Ext(message_broker, "Message Broker", "RabbitMQ / ActiveMQ", "AMQP queue for asynchronous message processing")
+        System_Ext(alb, "Application Load Balancer", "Entry point [HTTPS]")
+        System_Ext(sqs, "Amazon SQS", "Managed message broker [Queue]")
+        System_Ext(lambda, "AWS Lambda", "Async worker for notifications")
+        System_Ext(ses, "Amazon SES", "Email/OTP delivery service")
 
     Container_Boundary(c1, "NexusPay Ecosystem") {        
-        Container(backend, "API Application", "Java 21, Spring Boot 3", "Manage transactions, valid business logic and store immutable ledger.")
-        Container(notification, "Notification application", "Java 21, Spring Boot 3", "Service that will manage asynchronous events consuming from a AMQP queue")
-        
-        Container(job, "Reconciliation Job", "Spring Batch", "Runs audit asynchronous process")
-        
-        ContainerDb(database, "Database", "PostgreSQL", "Store Users, transactions and Ledger Core")
+        Container(backend, "NexusPay Application", "Java 21, Spring Boot 3", "Processes requests, validates business rules, manages transactions and writes immutable ledger")
+
+        ContainerDb(database, "AWS RDS PostgreSQL", "PostgreSQL", "Stores users, transactions and ledger entries")
     }
 
-    Rel(customer, spa, "Interacts", "HTTPS")
-    Rel(spa, backend, "API calls", "JSON/HTTPS")
+    Rel(customer, alb, "Access system", "HTTPS")
+
+    Rel(alb, backend, "Forward requests", "HTTPS")
+
+    Rel(backend, database, "Reads/Writes ledger data", "JPA / JDBC")
+
+    Rel(backend, sqs, "Publishes async events notifications")
+
+    Rel(lambda, sqs, "Consumes messages", "Event trigger")
+
+    Rel(lambda, ses, "Sends email/OTP", "AWS SDK")
     
-    Rel(backend, database, "Read/Write using Double-Entry", "JDBC  JPA")
+    Rel(ses, customer, "Sends email")
 
-    Rel(backend, message_broker, "Publish events [OTP code/UserCreated]", "AMQP")
-    Rel(message_broker, notification, "Delivery events", "AMQP")
-
-    Rel(notification, email_system, "Consume events and sends e-mails", "SMTP")
-    Rel(email_system, customer, "Send OTP code and notifications", "E-mail")
-
-    Rel(job, database, "Audit balance integrity", "JDBC")
-
-    UpdateRelStyle(backend, message_broker, $offsetX="-190", $offsetY="-50")
-          UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")
