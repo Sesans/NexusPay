@@ -109,6 +109,10 @@ Make sure you have Docker, Docker Compose, and Java 21 installed.
 #### Clone the repository
     git clone https://github.com/Sesans/nexuspay.git
 
+#### Setup environment variables
+
+set the variables correctly usign the [example](.env.example)
+
 #### Build the application
     docker compose build
 
