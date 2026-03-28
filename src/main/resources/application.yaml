@@ -6,14 +6,15 @@ spring:
     username: ${DB_USER}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
-    jpa:
-      show-sql: true
-      hibernate:
-        ddl-auto: validate
-        properties:
-          hibernate.format_sql: true
-    flyway:
-      enabled: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.format_sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
   logging:
     level:
       org:
@@ -32,6 +33,22 @@ spring:
           auth: true
           starttls:
             enable: true
+  cloud:
+    aws:
+      region:
+        static: sa-east-1
+      credentials:
+        access-key: test
+        secret-key: test
+      endpoint: http://localstack:4566
+      sqs:
+        endpoint: http://localstack:4566
+        listener:
+          acknowledgement-mode: ON_SUCCESS
+events:
+  queues:
+    user-registration: nexuspay-user-registered-queue
+
 api:
   security:
     token: ${JWT_SECRET:my-secret}
