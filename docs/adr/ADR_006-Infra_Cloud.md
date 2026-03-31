@@ -1,20 +1,20 @@
-**ADR 006:** Deploy da aplicação em um provedor de nuvem
+**ADR 006:** Deploying the application to a cloud provider
 
-**Status:** Pendente
+**Status:** Pending
 
-**Contexto:** Para que a aplicação seja corretamente disponibilizada para a internet, precisamos de um provedor compatível e confiável, seja acessível, respeitando o custo-benefício que demandamos, e consiga hospedar e receber corretamente a aplicação e as suas requisições. 
+**Context:** For the application to be properly made available on the internet, we need a compatible and reliable provider that is affordable, meets our cost-benefit requirements, and can correctly host and handle the application and its requests. 
 
-**Decisão:** Utilizaremos o serviço de Cloud da AWS. O provedor AWS é justificável para o nosso caso, pois além de ser um dos maiores serviços de Cloud com ampla documentação disponível e uma gama de serviços que podem ser utilizados em nosso benefício, como o RDS, SQS, Lambda, entre outros. Para garantir que não haja divergências na aplicação rodando em ambiente de teste local e de produção na nuvem, serão utilizados containeres **Docker** para garantir a consistência, com **Docker Compose** orquestrando estes containeres. Como forma de mitigação de custos no ambiente de desenvolvimento local, será usado o emulador de serviços Cloud **LocalStack**. Esta abordagem reduz custo, permite visualização mais rápida de erros ou correções necessárias e criação de pipelines CI/CD mais práticas.
+**Decision:** We will use the AWS Cloud service. AWS is a suitable provider for our needs because, in addition to being one of the largest cloud services with extensive documentation available, it offers a range of services that can benefit us, such as RDS, SQS, Lambda, and others. To ensure there are no discrepancies between the application running in the local test environment and the cloud production environment, **Docker** containers will be used to ensure consistency, with **Docker Compose** orchestrating these containers. To mitigate costs in the local development environment, the **LocalStack** cloud services emulator will be used. This approach reduces costs, allows for faster identification of errors or necessary fixes, and enables the creation of more practical CI/CD pipelines.
 
-**Consequências:**
-- **Positivas:**
-	- Custos no modelo pague o quanto usar.
-	- Infraestrutura consolidada no mercado e com documentação abrangente.
-	- Pipelines CI/CD garantem a entrega de software funcionando da forma esperada.
-	- Sistema disponível para que qualquer pessoa com acesso à internet possa acessá-lo.
-	- Facilidade de escalabilidade e elasticidade.
-- **Negativas:**
-	- Configuração complexa que exige análise definição apurada para evitar retrabalho e custos desnecessários (Já reduzido pela utilização de LocalStack).
-	- A má configuração como de permissões de acesso podem gerar riscos de segurança.
-	- Instâncias devem ser monitoradas de perto, pois o modelo Pay-Per-Use pode escalar de forma inesperada.
-	- Migração dificultada e custosa devido à incompatibilidade de ferramentos e serviços com outros provedores.
+**Consequences:**
+- **Positives:**
+    - Pay-as-you-go pricing model.
+    - Well-established infrastructure in the market with comprehensive documentation.
+    - CI/CD pipelines ensure that software is delivered functioning as expected.
+    - The system is accessible to anyone with internet access.
+	- Ease of scalability and elasticity.
+- **Negative:**
+    - Complex configuration requiring careful analysis and definition to avoid rework and unnecessary costs (already reduced by using LocalStack).
+	- Poor configuration, such as access permissions, can create security risks.
+    - Instances must be closely monitored, as the Pay-Per-Use model can scale unexpectedly.
+    - Migration is difficult and costly due to the incompatibility of tools and services with other providers.

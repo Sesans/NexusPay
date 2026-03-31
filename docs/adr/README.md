@@ -2,10 +2,10 @@
   
 ## Lista de ADRs
   
-- [ADR-001 - Estratégia de Arquitetura](./ADR_001-Arquitetura.md)  
-- [ADR-002 - Estratégia de Concorrência](./ADR_002-Concorrencia.md)  
-- [ADR-003 - Representação Monetária](./ADR_003-Representacao_monetaria.md) 
-- [ADR-004 - Validação de identidade](./ADR_004-Validacao_JWT.md) 
-- [ADR-005 - Testabilidade no ambiente de DEV](./ADR_005-Testabilidade.md) 
-- [ADR-006 - Infraestrutura e Cloud](./ADR_006-Infra_Cloud.md)  
-- [ADR-007 - Mensageria](./ADR_007-Mensageria.md)
+- [ADR-001 - Architecture Strategy](ADR_001-Architecture.md)  
+- [ADR-002 - Concurrency Strategy](ADR_002-Concurrency.md)  
+- [ADR-003 - Monetary Representation](ADR_003-Monetary_representation.md) 
+- [ADR-004 - Identity Validation](ADR_004-JWT_validation.md) 
+- [ADR-005 - Testability in the DEV Environment](ADR_005-Testability.md) 
+- [ADR-006 - Infrastructure and Cloud](./ADR_006-Infra_Cloud.md)  
+- [ADR-007 - Messaging](ADR_007-Messaging.md)
