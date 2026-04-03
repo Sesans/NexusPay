@@ -10,7 +10,7 @@ This directory contains all technical documentation for the NexusPay system, per
 - [ADR Index](./adr/README.md)  
   
 ## Requirements  
-- [Requirements](Requirements.md)  
+- [Requirements](./requirements/Requirements.md)  
   
 ## Reliability (SRE)  
 - [System Level](./sre/SLI_SLO_SLA.pdf)

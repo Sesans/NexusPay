@@ -1,6 +1,6 @@
 # Architecture Decision Records 
   
-## Lista de ADRs
+## ADRs list
   
 - [ADR-001 - Architecture Strategy](ADR_001-Architecture.md)  
 - [ADR-002 - Concurrency Strategy](ADR_002-Concurrency.md)  

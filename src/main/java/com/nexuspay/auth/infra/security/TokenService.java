@@ -25,7 +25,7 @@ public class TokenService implements TokenValidator {
 
     public String generateToken(User user){
         Algorithm algorithm = Algorithm.HMAC256(secret);
-        List<String> roles = List.of("ROLE_" + user.getStatus().toString());
+        List<String> roles = List.of(user.getStatus().toString());
 
         try{
             return JWT.create()
@@ -70,9 +70,11 @@ public class TokenService implements TokenValidator {
     public Collection<? extends GrantedAuthority> getAuthorities(String token) {
         try {
             DecodedJWT decoded = validateAndDecodeToken(token);
-            String roles = decoded.getClaim("roles").asString();
-            // Transform the status (VERIFIED, PENDING) in a spring role
-            return List.of(new SimpleGrantedAuthority("ROLE_" + roles));
+            List<String> roles = decoded.getClaim("roles").asList(String.class);
+
+            return roles.stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                    .toList();
         } catch (Exception e) {
             return List.of();
         }

@@ -1,8 +1,9 @@
 package com.nexuspay.ledger.application;
 
-import com.nexuspay.ledger.domain.model.CurrencyCode;
 import com.nexuspay.ledger.application.dto.TransferRequestDTO;
+import com.nexuspay.ledger.domain.exception.AccountNotFoundException;
 import com.nexuspay.ledger.domain.model.Account;
+import com.nexuspay.ledger.domain.model.CurrencyCode;
 import com.nexuspay.ledger.domain.model.LedgerEntry;
 import com.nexuspay.ledger.domain.repository.AccountRepository;
 import com.nexuspay.ledger.domain.repository.LedgerEntryRepository;
@@ -19,7 +20,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -64,4 +66,18 @@ class TransactionServiceTest {
         verify(transactionRepository, times(1)).existsByCorrelationId(any());
         verify(entryRepository, times(2)).save(any(LedgerEntry.class));
     }
+
+    @Test
+    @DisplayName("Should throw AccountNotFoundException")
+    void processTransfer_error(){
+        when(transactionRepository.existsByCorrelationId(dto.correlationId())).thenReturn(false);
+        when(accountRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(AccountNotFoundException.class,
+                ()-> transactionService.processTransfer(dto));
+
+        verify(transactionRepository, times(1)).existsByCorrelationId(any());
+        verify(accountRepository, times(1)).findById(any(UUID.class));
+    }
+
 }
