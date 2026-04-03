@@ -24,7 +24,7 @@ public class LoginUseCase {
     public UserResponseDTO execute(UserLoginDTO dto) {
         User user = userRepository.findByCpf(dto.cpf())
                 .filter(u -> passwordEncoder.matches(dto.password(), u.getPassword()))
-                .orElseThrow(() -> new InvalidCredentialsException("Invalid CPF or password!"));
+                .orElseThrow(InvalidCredentialsException::new);
 
         String token = tokenService.generateToken(user);
 
