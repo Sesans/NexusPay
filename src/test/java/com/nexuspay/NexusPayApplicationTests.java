@@ -58,7 +58,7 @@ class NexusPayApplicationTests {
 		RestAssured.port = port;
 		dto = new UserRequestDTO(
 				"Test",
-				"12312312312",
+				"10343354055",
 				"test@gmail.com",
 				18,
 				"passwordTest",
