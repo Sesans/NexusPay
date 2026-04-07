@@ -1,7 +1,8 @@
 package com.nexuspay.auth.web;
 
-import com.nexuspay.auth.application.AuthService;
+import com.nexuspay.auth.application.UserRegistrationUseCase;
 import com.nexuspay.auth.application.LoginUseCase;
+import com.nexuspay.auth.application.UserVerificationUseCase;
 import com.nexuspay.auth.application.dto.UserLoginDTO;
 import com.nexuspay.auth.application.dto.UserRequestDTO;
 import com.nexuspay.auth.application.dto.UserResponseDTO;
@@ -16,23 +17,26 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
-    private final AuthService authService;
+    private final UserRegistrationUseCase registrationUseCase;
     private final LoginUseCase loginUseCase;
-    public AuthController(AuthService authService, LoginUseCase loginUseCase) {
-        this.authService = authService;
+    private final UserVerificationUseCase verificationUseCase;
+
+    public AuthController(UserRegistrationUseCase registrationUseCase, LoginUseCase loginUseCase, UserVerificationUseCase verificationUseCase) {
+        this.registrationUseCase = registrationUseCase;
         this.loginUseCase = loginUseCase;
+        this.verificationUseCase = verificationUseCase;
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDTO register(@RequestBody @Valid UserRequestDTO dto){
-        return authService.register(dto);
+        return registrationUseCase.execute(dto);
     }
 
     @PostMapping("/verify")
     @ResponseStatus(HttpStatus.OK)
     public void verify(@AuthenticationPrincipal UUID userId, @RequestBody @Valid VerifyOTP dto){
-        authService.verify(userId, dto);
+        verificationUseCase.execute(userId, dto);
     }
 
     @PostMapping("/login")
