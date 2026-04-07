@@ -3,9 +3,7 @@ package com.nexuspay.auth.application;
 import com.nexuspay.auth.application.dto.UserRegisteredEvent;
 import com.nexuspay.auth.application.dto.UserRequestDTO;
 import com.nexuspay.auth.application.dto.UserResponseDTO;
-import com.nexuspay.auth.application.dto.VerifyOTP;
 import com.nexuspay.auth.domain.exception.DuplicateUserException;
-import com.nexuspay.auth.domain.exception.ExpiredCodeException;
 import com.nexuspay.auth.domain.model.User;
 import com.nexuspay.auth.domain.model.VerificationCode;
 import com.nexuspay.auth.domain.repository.UserRepository;
@@ -18,11 +16,10 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthService {
+public class UserRegistrationUseCase {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenService tokenService;
@@ -30,7 +27,7 @@ public class AuthService {
     private final ApplicationEventPublisher eventPublisher;
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
-    public AuthService(PasswordEncoder passwordEncoder, UserRepository userRepository, TokenService tokenService, VerificationCodeRepository verificationRepository, ApplicationEventPublisher eventPublisher) {
+    public UserRegistrationUseCase(PasswordEncoder passwordEncoder, UserRepository userRepository, TokenService tokenService, VerificationCodeRepository verificationRepository, ApplicationEventPublisher eventPublisher) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.tokenService = tokenService;
@@ -39,7 +36,7 @@ public class AuthService {
     }
 
     @Transactional
-    public UserResponseDTO register(UserRequestDTO dto){
+    public UserResponseDTO execute(UserRequestDTO dto){
         if(userRepository.existsByCpf(dto.cpf()))
             throw new DuplicateUserException("CPF already registered!");
         if(userRepository.existsByEmail(dto.email()))
@@ -72,20 +69,4 @@ public class AuthService {
                 .mapToObj(String::valueOf)
                 .collect(Collectors.joining());
     }
-
-    @Transactional
-    public void verify(UUID userId, VerifyOTP dto) {
-        User user = userRepository.findById(userId).orElseThrow();
-        VerificationCode code = verificationRepository.findByUserId(userId).orElseThrow();
-
-        try{
-            code.validate(dto.otp());
-        }catch (ExpiredCodeException ex){
-            verificationRepository.delete(code);
-        }
-        user.setVerified();
-
-        verificationRepository.delete(code);
-    }
-
 }

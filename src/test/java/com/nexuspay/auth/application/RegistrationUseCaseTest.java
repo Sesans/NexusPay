@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AuthServiceTest {
+class RegistrationUseCaseTest {
     @Mock
     PasswordEncoder passwordEncoder;
     @Mock
@@ -37,7 +37,7 @@ class AuthServiceTest {
     ApplicationEventPublisher publisher;
 
     @InjectMocks
-    AuthService authService;
+    UserRegistrationUseCase authService;
     UserRequestDTO dto;
 
     @BeforeEach
@@ -53,7 +53,7 @@ class AuthServiceTest {
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(tokenService.generateToken(any(User.class))).thenReturn("testToken");
 
-        UserResponseDTO response = authService.register(dto);
+        UserResponseDTO response = authService.execute(dto);
 
         assertNotNull(response);
         assertEquals(dto.name(), response.name());
@@ -68,7 +68,7 @@ class AuthServiceTest {
         when(userRepository.existsByCpf(anyString())).thenReturn(true);
 
         DuplicateUserException ex = assertThrows(DuplicateUserException.class,
-                () -> authService.register(dto));
+                () -> authService.execute(dto));
 
         assertEquals("CPF already registered!", ex.getMessage());
     }
@@ -79,7 +79,7 @@ class AuthServiceTest {
         when(userRepository.existsByEmail(anyString())).thenReturn(true);
 
         DuplicateUserException ex = assertThrows(DuplicateUserException.class,
-                () -> authService.register(dto));
+                () -> authService.execute(dto));
 
         assertEquals("Email already registered!", ex.getMessage());
     }
