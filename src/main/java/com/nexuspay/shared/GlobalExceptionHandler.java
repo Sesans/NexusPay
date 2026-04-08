@@ -1,9 +1,6 @@
 package com.nexuspay.shared;
 
-import com.nexuspay.auth.domain.exception.DuplicateUserException;
-import com.nexuspay.auth.domain.exception.ExpiredCodeException;
-import com.nexuspay.auth.domain.exception.InvalidCodeException;
-import com.nexuspay.auth.domain.exception.InvalidCredentialsException;
+import com.nexuspay.auth.domain.exception.*;
 import com.nexuspay.ledger.domain.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -123,6 +120,26 @@ public class GlobalExceptionHandler{
                 .body(new ErrorResponse(
                         "CONFLICT",
                         ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(
+                        "USER_NOT_FOUND",
+                        "User not found"
+                ));
+    }
+
+    @ExceptionHandler(VerificationCodeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCodeNotFound(VerificationCodeNotFoundException ex){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(
+                        "INVALID_OR_EXPIRED_CODE",
+                        "Invalid code"
                 ));
     }
 

@@ -2,6 +2,8 @@ package com.nexuspay.auth.application;
 
 import com.nexuspay.auth.application.dto.VerifyOTP;
 import com.nexuspay.auth.domain.exception.ExpiredCodeException;
+import com.nexuspay.auth.domain.exception.UserNotFoundException;
+import com.nexuspay.auth.domain.exception.VerificationCodeNotFoundException;
 import com.nexuspay.auth.domain.model.User;
 import com.nexuspay.auth.domain.model.VerificationCode;
 import com.nexuspay.auth.domain.repository.UserRepository;
@@ -23,16 +25,16 @@ public class UserVerificationUseCase {
 
     @Transactional
     public void execute(UUID userId, VerifyOTP dto) {
-        User user = userRepository.findById(userId).orElseThrow();
-        VerificationCode code = verificationRepository.findByUserId(userId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        VerificationCode code = verificationRepository.findByUserId(userId).orElseThrow(VerificationCodeNotFoundException::new);
 
         try{
             code.validate(dto.otp());
+            user.setVerified();
+            verificationRepository.delete(code);
         }catch (ExpiredCodeException ex){
             verificationRepository.delete(code);
+            throw ex;
         }
-        user.setVerified();
-
-        verificationRepository.delete(code);
     }
 }

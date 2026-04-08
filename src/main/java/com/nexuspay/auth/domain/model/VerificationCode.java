@@ -40,7 +40,7 @@ public class VerificationCode {
 
     public void validate(String inputCode){
         if(this.isExpired()) throw new ExpiredCodeException("This verification code is expired!");
-        if(!this.code.equals(inputCode)) throw new InvalidCodeException("The code " + inputCode + "doesn't match! " +
+        if(!this.code.equals(inputCode)) throw new InvalidCodeException("The code " + inputCode + " doesn't match! " +
                 "Try again with the correct code.");
     }
 }
