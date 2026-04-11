@@ -1,7 +1,7 @@
 package com.nexuspay.auth.application;
 
 import com.nexuspay.auth.application.dto.UserLoginDTO;
-import com.nexuspay.auth.application.dto.UserResponseDTO;
+import com.nexuspay.auth.application.dto.AuthResponseDTO;
 import com.nexuspay.auth.domain.exception.InvalidCredentialsException;
 import com.nexuspay.auth.domain.model.User;
 import com.nexuspay.auth.domain.repository.UserRepository;
@@ -21,14 +21,14 @@ public class LoginUseCase {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserResponseDTO execute(UserLoginDTO dto) {
+    public AuthResponseDTO execute(UserLoginDTO dto) {
         User user = userRepository.findByCpf(dto.cpf())
                 .filter(u -> passwordEncoder.matches(dto.password(), u.getPassword()))
                 .orElseThrow(InvalidCredentialsException::new);
 
         String token = tokenService.generateToken(user);
 
-        return new UserResponseDTO(
+        return new AuthResponseDTO(
                 user.getName(),
                 user.getEmail(),
                 user.getStatus(),

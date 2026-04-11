@@ -2,7 +2,7 @@ package com.nexuspay.auth.application;
 
 import com.nexuspay.auth.application.dto.UserRegisteredEvent;
 import com.nexuspay.auth.application.dto.UserRequestDTO;
-import com.nexuspay.auth.application.dto.UserResponseDTO;
+import com.nexuspay.auth.application.dto.AuthResponseDTO;
 import com.nexuspay.auth.domain.exception.DuplicateUserException;
 import com.nexuspay.auth.domain.model.User;
 import com.nexuspay.auth.domain.model.VerificationCode;
@@ -36,7 +36,7 @@ public class UserRegistrationUseCase {
     }
 
     @Transactional
-    public UserResponseDTO execute(UserRequestDTO dto){
+    public AuthResponseDTO execute(UserRequestDTO dto){
         if(userRepository.existsByCpf(dto.cpf()))
             throw new DuplicateUserException("CPF already registered!");
         if(userRepository.existsByEmail(dto.email()))
@@ -55,7 +55,7 @@ public class UserRegistrationUseCase {
         eventPublisher.publishEvent(new UserRegisteredEvent(user.getEmail(), otp));
 
         String token = tokenService.generateToken(user);
-        return new UserResponseDTO(
+        return new AuthResponseDTO(
                 dto.name(),
                 dto.email(),
                 user.getStatus(),
