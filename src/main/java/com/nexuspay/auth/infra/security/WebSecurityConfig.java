@@ -31,7 +31,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/v1/auth/register", "/api/v1/auth/login").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/api/v1/auth/verify", "/api/v1/ledger/transfer", "/api/v1/account").authenticated()
+                        .requestMatchers("/api/v1/auth/verify",
+                                "/api/v1/ledger/transfer", "/api/v1/account", "/api/v1/users/me").authenticated()
                         .anyRequest().authenticated()
                 ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
