@@ -1,7 +1,7 @@
 package com.nexuspay.auth.application;
 
 import com.nexuspay.auth.application.dto.UserRequestDTO;
-import com.nexuspay.auth.application.dto.UserResponseDTO;
+import com.nexuspay.auth.application.dto.AuthResponseDTO;
 import com.nexuspay.auth.domain.exception.DuplicateUserException;
 import com.nexuspay.auth.domain.model.User;
 import com.nexuspay.auth.domain.model.UserStatus;
@@ -53,7 +53,7 @@ class RegistrationUseCaseTest {
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(tokenService.generateToken(any(User.class))).thenReturn("testToken");
 
-        UserResponseDTO response = authService.execute(dto);
+        AuthResponseDTO response = authService.execute(dto);
 
         assertNotNull(response);
         assertEquals(dto.name(), response.name());

@@ -4,7 +4,7 @@ import com.nexuspay.auth.domain.model.UserStatus;
 
 import java.time.LocalDateTime;
 
-public record UserResponseDTO(
+public record AuthResponseDTO(
         String name,
         String email,
         UserStatus status,

@@ -5,7 +5,7 @@ import com.nexuspay.auth.application.LoginUseCase;
 import com.nexuspay.auth.application.UserVerificationUseCase;
 import com.nexuspay.auth.application.dto.UserLoginDTO;
 import com.nexuspay.auth.application.dto.UserRequestDTO;
-import com.nexuspay.auth.application.dto.UserResponseDTO;
+import com.nexuspay.auth.application.dto.AuthResponseDTO;
 import com.nexuspay.auth.application.dto.VerifyOTP;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponseDTO register(@RequestBody @Valid UserRequestDTO dto){
+    public AuthResponseDTO register(@RequestBody @Valid UserRequestDTO dto){
         return registrationUseCase.execute(dto);
     }
 
@@ -41,7 +41,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public UserResponseDTO login(@RequestBody @Valid UserLoginDTO dto){
+    public AuthResponseDTO login(@RequestBody @Valid UserLoginDTO dto){
         return loginUseCase.execute(dto);
     }
 }
