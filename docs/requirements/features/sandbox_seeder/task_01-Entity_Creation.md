@@ -1,0 +1,3 @@
+Write the Flyway schema for the `system_events` table. Use the Entity table described in [ERD](architecture/system_events_ERD). Based on this reference, map the Java class using the @Entity annotation and the corresponding JpaRepository with the `existsByMigrationKeyAndStatus()` method, which should verify whether the event has already been successfully executed returning a boolean.
+
+Create the migration V4 table using flyway and the Entity-relationship diagram reference.
